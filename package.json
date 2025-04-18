@@ -1,0 +1,31 @@
+{
+  "name": "@kguie/react-data-table",
+  "version": "1.0.0",
+  "description": "Custom data table for React",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "https://github.com/Kguie/data-table.git",
+  "author": "kguie <kevin.guieba@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "tsc",
+    "rebuild": "yarn clean && yarn build",
+    "doc": "npx tsx docs.config.ts"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "tsx": "^4.19.3"
+  }
+}
