@@ -78,14 +78,14 @@ export function DataTable<T extends object>({
       </table>
       <div>
         Page {page} / {Math.ceil(filtered.length / pageSize)}
-        <button onClick={() => setPage((p) => Math.max(p - 1, 1))}>Préc</button>
+        <button onClick={() => setPage((p) => Math.max(p - 1, 1))}>Prev</button>
         <button
           onClick={() =>
             setPage((p) =>
               Math.min(p + 1, Math.ceil(filtered.length / pageSize))
             )
           }>
-          Suiv
+          Next
         </button>
       </div>
     </div>

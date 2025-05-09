@@ -4,3 +4,5 @@ tsconfig.json
 yarn.lock
 index.ts
 node_modules/
+.env*
+kguie-react-data-table
