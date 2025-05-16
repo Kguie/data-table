@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Column } from "./types";
 
 interface Props<T> {
@@ -8,6 +8,10 @@ interface Props<T> {
   searchable?: boolean;
 }
 
+function getNestedValue(obj: any, path: string): any {
+  return path.split(".").reduce((acc, part) => acc?.[part], obj);
+}
+
 export function DataTable<T extends object>({
   data,
   columns,
@@ -15,7 +19,7 @@ export function DataTable<T extends object>({
   searchable = false,
 }: Props<T>) {
   const [search, setSearch] = useState("");
-  const [sortKey, setSortKey] = useState<keyof T | null>(null);
+  const [sortKey, setSortKey] = useState<string | null>(null);
   const [sortAsc, setSortAsc] = useState(true);
   const [page, setPage] = useState(1);
 
@@ -30,8 +34,8 @@ export function DataTable<T extends object>({
   const sorted = useMemo(() => {
     if (!sortKey) return filtered;
     return [...filtered].sort((a, b) => {
-      const valA = a[sortKey];
-      const valB = b[sortKey];
+      const valA = getNestedValue(a, sortKey);
+      const valB = getNestedValue(b, sortKey);
       return (valA > valB ? 1 : -1) * (sortAsc ? 1 : -1);
     });
   }, [filtered, sortKey, sortAsc]);
@@ -42,7 +46,12 @@ export function DataTable<T extends object>({
   }, [sorted, page, pageSize]);
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}>
       {searchable && (
         <input
           placeholder="Rechercher..."
@@ -55,7 +64,7 @@ export function DataTable<T extends object>({
           <tr>
             {columns.map((col) => (
               <th
-                key={String(col.key)}
+                key={col.key}
                 onClick={() =>
                   col.sortable &&
                   (setSortKey(col.key),
@@ -70,7 +79,7 @@ export function DataTable<T extends object>({
           {paginated.map((row, i) => (
             <tr key={i}>
               {columns.map((col) => (
-                <td key={String(col.key)}>{String(row[col.key])}</td>
+                <td key={col.key}>{String(getNestedValue(row, col.key))}</td>
               ))}
             </tr>
           ))}
